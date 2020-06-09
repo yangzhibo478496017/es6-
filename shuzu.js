@@ -1,4 +1,4 @@
-// const {log} = console;
+const {log} = console;
 // // 扩展运算符
 // // 含义
 // // 扩展运算符（spread）是三个点（...）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。
@@ -156,10 +156,11 @@
 // const a1 = [1, 2];
 // // 写法一
 // const a2 = [...a1];
-// // 写法二
-// const [...a2] = a1;
+// // // 写法二
+// // const [...a2] = a1;
 // // 上面的两种写法，a2都是a1的克隆。
-
+// a1[1] = 3;
+// log(a2)
 // // （2）合并数组
 
 // // 扩展运算符提供了数组合并的新写法。
@@ -168,13 +169,15 @@
 // const arr2 = ['c'];
 // const arr3 = ['d', 'e'];
 
-// // ES5 的合并数组
-// arr1.concat(arr2, arr3);
-// // [ 'a', 'b', 'c', 'd', 'e' ]
+// // // ES5 的合并数组
+// // arr1.concat(arr2, arr3);
+// // // [ 'a', 'b', 'c', 'd', 'e' ]
 
 // // ES6 的合并数组
-// [...arr1, ...arr2, ...arr3]
-// // [ 'a', 'b', 'c', 'd', 'e' ]
+// let arr4 = [...arr1, ...arr2, ...arr3]
+// arr1[1] = 'b1';
+// log(arr4);
+// [ 'a', 'b', 'c', 'd', 'e' ]
 // // 不过，这两种方法都是浅拷贝，使用的时候需要注意。
 
 // const a1 = [{ foo: 1 }];
@@ -190,11 +193,12 @@
 // // （3）与解构赋值结合
 
 // // 扩展运算符可以与解构赋值结合起来，用于生成数组。
-
+// let list = [1,2,2,3]
 // // ES5
-// a = list[0], rest = list.slice(1)
+// a = list[0], rest = list.slice(1,2);
 // // ES6
 // [a, ...rest] = list
+// log(a,rest)
 // // 下面是另外一些例子。
 
 // const [first, ...rest] = [1, 2, 3, 4, 5];
@@ -270,7 +274,7 @@
 //   '2': 'c',
 //   length: 3
 // };
-
+// log(Array.from(arrayLike))
 // // TypeError: Cannot spread non-iterable object.
 // let arr = [...arrayLike];
 // // 上面代码中，arrayLike是一个类似数组的对象，但是没有部署 Iterator 接口，扩展运算符就会报错。这时，可以改为使用Array.from方法将arrayLike转为真正的数组。
@@ -386,6 +390,11 @@
 // // 下面的例子将数组中布尔值为false的成员转为0。
 
 // Array.from([1, , 2, , 3], (n) => n || 0)
+// let n = undefined
+// let t = null
+// let m = ''
+// let j = NaN
+// log(n || 1 ,m || 2, t || 3 ,j || 4)
 // // [1, 0, 2, 0, 3]
 // // 另一个例子是返回各种数据的类型。
 
@@ -394,11 +403,12 @@
 // }
 // typesOf(null, [], NaN)
 // // ['object', 'object', 'number']
+
 // // 如果map函数里面用到了this关键字，还可以传入Array.from的第三个参数，用来绑定this。
 
 // // Array.from()可以将各种值转为真正的数组，并且还提供map功能。这实际上意味着，只要有一个原始的数据结构，你就可以先对它的值进行处理，然后转成规范的数组结构，进而就可以使用数量众多的数组方法。
 
-// Array.from({ length: 2 }, () => 'jack')
+// log(Array.from({ length: 2 }, () => 'jack'))
 // // ['jack', 'jack']
 // // 上面代码中，Array.from的第一个参数指定了第二个参数运行的次数。这种特性可以让该方法的用法变得非常灵活。
 
@@ -461,6 +471,10 @@
 // // 将3号位复制到0号位
 // [].copyWithin.call({length: 5, 3: 1}, 0, 3)
 // // {0: 1, 3: 1, length: 5}
+// let  x = {length: 5, 3: 1}
+
+// log(Array.from(x))
+
 
 // // 将2号位到数组结束，复制到0号位
 // let i32a = new Int32Array([1, 2, 3, 4, 5]);
@@ -478,9 +492,12 @@
 // // -5
 // // 上面代码找出数组中第一个小于 0 的成员。
 
-// [1, 5, 10, 15].find(function(value, index, arr) {
+// [1, 5, 10, 15].find(function(value, index, arr,ssss) {
+//     log(index,value,arr,ssss);
 //   return value > 9;
 // }) // 10
+
+
 // // 上面代码中，find方法的回调函数可以接受三个参数，依次为当前的值、当前的位置和原数组。
 
 // // 数组实例的findIndex方法的用法与find方法非常类似，返回第一个符合条件的数组成员的位置，如果所有成员都不符合条件，则返回-1。
@@ -632,10 +649,15 @@
 // // 上面代码中，遍历函数返回的是一个双层的数组，但是默认只能展开一层，因此flatMap()返回的还是一个嵌套数组。
 
 // // flatMap()方法的参数是一个遍历函数，该函数可以接受三个参数，分别是当前数组成员、当前数组成员的位置（从零开始）、原数组。
-
-// // arr.flatMap(function callback(currentValue[, index[, array]]) {
-//   // ...
-// }[, thisArg])
+// let arr = [65,4,61,61,321,3,546,5,32,16,54,321,65,46,1,345,654,9,846,4,34,64,6,13,46,84,1,34,68,46,4,64,6,46,54,654,64,65,465,]
+// let thisArg = {
+//     num :10
+// }
+// let arr1 = arr.flatMap(function callback(currentValue, index, array) {
+//     log(currentValue,index)
+//     return currentValue <this.num? currentValue : 0;
+// }, thisArg)
+// log(arr1)
 // // flatMap()方法还可以有第二个参数，用来绑定遍历函数里面的this。
 
 // 数组的空位
