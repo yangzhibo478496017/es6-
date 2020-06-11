@@ -1,3 +1,4 @@
+const {log} = console;
 // 属性的简洁表示法
 // ES6 允许在大括号里面，直接写入变量和函数，作为对象的属性和方法。这样的书写更加简洁。
 
@@ -18,6 +19,7 @@
 // function f(x, y) {
 //   return {x: x, y: y};
 // }
+
 
 // f(1, 2) // Object {x: 1, y: 2}
 // 除了属性简写，方法也可以简写。
@@ -62,7 +64,7 @@
 // // {x:1, y:10}
 // CommonJS 模块输出一组变量，就非常合适使用简洁写法。
 
-// let ms = {};
+// let ms = {a:'a',b:'b',c:'c'};
 
 // function getItem (key) {
 //   return key in ms ? ms[key] : null;
@@ -76,13 +78,24 @@
 //   ms = {};
 // }
 
+// log(getItem('a'))
 // module.exports = { getItem, setItem, clear };
-// // 等同于
+// 等同于
 // module.exports = {
 //   getItem: getItem,
 //   setItem: setItem,
 //   clear: clear
 // };
+
+
+// let z = 'z';
+// let x  = {q:1,w :2}
+// x['xc'] = 1
+//  let ffffx = 'q';
+// let x = new Map();
+// x  = {q:1,w :2}
+// x['ffff'] = 11123
+// log(x[ffffx])
 // 属性的赋值器（setter）和取值器（getter），事实上也是采用这种写法。
 
 // const cart = {
@@ -361,9 +374,47 @@
 //   }
 // }
 
-// Object.setPrototypeOf(obj, proto);
+// const obj1 = {
+//     x: 'world1',
+//     foo() {
+//       super.foo();
+//     }
+//   }
 
-// obj.foo() // "world"
+// Object.setPrototypeOf(obj, proto);
+// Object.setPrototypeOf(obj1, obj);
+// // obj.foo() // "world"
+// obj1.foo()
+
+// function Timer() {
+//     this.s1 = 0;
+//     this.s2 = 0;
+//     // 箭头函数
+//     setInterval(() => this.s1++, 1000);
+//     // 普通函数
+//     setInterval1() {
+//       this.s2++;
+//     }, 1000);
+
+//   }
+  
+//   var timer = new Timer();
+  
+//   setTimeout(() => console.log('s1: ', timer.s1), 3100); 
+//   setTimeout(() => console.log('s2: ', timer.s2), 3100);
+//   setTimeout(() => console.log('s2: ', timer.setInterval1.bind(timer)()), 3100);
+
+
+// function foo() {
+  
+//       console.log('id:', this.id)
+    
+//   }
+//  let id = 21;
+
+//   foo();
+
+
 // 上面代码中，super.foo指向原型对象proto的foo方法，但是绑定的this却还是当前对象obj，因此输出的就是world。
 
 // 对象的扩展运算符
@@ -794,6 +845,17 @@
 //   })
 // )
 // // { b: 'c' }
+
+// const obj1 = {a: {b: 1}};
+// const obj2 = {a1: {c: 1}};
+// const obj3 = {a2: {d: 1}};
+
+// Object.setPrototypeOf(obj1,obj2)
+// log(obj1.a1)
+// Object.assign(obj3,obj1)
+// log(obj3)
+
+
 // 上面代码中，Object.assign要拷贝的对象只有一个不可枚举属性invisible，这个属性并没有被拷贝进去。
 
 // 属性名为 Symbol 值的属性，也会被Object.assign拷贝。
